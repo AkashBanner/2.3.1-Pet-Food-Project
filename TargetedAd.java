@@ -32,7 +32,9 @@ public class TargetedAd {
      */
 
 
-    /* your code here */
+    DataCollector dc = new DataCollector();
+    dc.setData("socialMediaPosts.txt", "targetWords.txt");
+    String targetedUsers = "";
     
      
   }
