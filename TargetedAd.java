@@ -3,8 +3,6 @@
  */
 public class TargetedAd {
 
-  public static void main(String[] args)
-  {
     /*  
      * TODO:
      * PREPARATION WORK
@@ -31,39 +29,76 @@ public class TargetedAd {
      *    so you use the socialMediaPosts.txt. You should now have a larger file of users to target.
      */
 
+  private static String[] adCampaigns = {
+    "[PREMIUM PASTURE PLUS] Tired of picky eaters? Our fiber-rich blend keeps donkeys satisfied! Vet-approved. 20% OFF first order! Use code: HEEHAW20",
+    "[HEEHAW HARVEST] All-natural, low-sugar pellets for donkey metabolism. No fillers. No additives. FREE SHIPPING $50+! Shop now at DonkeyDelights.com",
+    "[BURROBYTES TREATS] Training treats that WORK! Apple & carrot bites, perfect size. BUY 2 GET 1 FREE! Limited time only!",
+    "[SENIOR DONKEY GOLD] Gentle nutrition for aging companions. Easy-chew pellets + joint support. Subscribe & save 15%! Your donkey deserves it.",
+    "[WORKMULE PRO] High-energy formula for hardworking equines. Sustained carbs + electrolytes. FUEL THE WORK! Order: 1-800-DONK-FOOD",
+    "[ORGANIC MEADOW MUNCH] USDA Certified Organic. Non-GMO. Pesticide-free. Clean eating for four-legged friends! Use code: ORGANIC25"
+  };
+
+  public static void main(String[] args)
+  {
+    System.out.println("\n" + "=".repeat(50));
+    System.out.println("    DONKEY FOOD TARGETED AD SYSTEM v2.0");
+    System.out.println("    \"Making donkeys happy, one pellet at a time\"");
+    System.out.println("=".repeat(50) + "\n");
 
     DataCollector dc = new DataCollector();
     dc.setData("socialMediaPosts.txt", "targetWords.txt");
-    String targetedUsers = "";
-
-    String post = dc.getNextPost();
     
-    while (!(post.equals("NONE"))){
+    String targetedUsers = "";
+    String post = dc.getNextPost();
+    int postsScanned = 0;
+    int matchesFound = 0;
+
+    System.out.println("[*] Scanning social media posts...");
+
+    while (!post.equals("NONE"))
+    {
+      postsScanned++;
       String username = post.substring(0, post.indexOf(" "));
       String lowerPost = post.toLowerCase();
 
       String targetWord = dc.getNextTargetWord();
       boolean found = false;
 
-      while(!targetWord.equals("NONE")){
-        if (lowerPost.indexOf(targetWord.toLowerCase())!=-1){
+      while (!targetWord.equals("NONE"))
+      {
+        if (lowerPost.indexOf(targetWord.toLowerCase()) != -1)
+        {
           found = true;
         }
         targetWord = dc.getNextTargetWord();
       }
-      if (found && targetedUsers.indexOf(username)==-1){
+
+      if (found && targetedUsers.indexOf(username) == -1)
+      {
         targetedUsers += username + " ";
+        matchesFound++;
       }
 
       post = dc.getNextPost();
-      
     }
 
-    String advertisement = "Buy the next best donkey food today!";
+    int randomIndex = (int)(Math.random() * adCampaigns.length);
+    String advertisement = adCampaigns[randomIndex];
+
     dc.prepareAdvertisement("targetedAds.txt", targetedUsers.trim(), advertisement);
 
-    System.out.println("Advertisement file created");
-     
+    System.out.println("[+] Scan complete!\n");
+    System.out.println("-".repeat(50));
+    System.out.println("CAMPAIGN STATS:");
+    System.out.println("-".repeat(50));
+    System.out.println("  Posts scanned:     " + postsScanned);
+    System.out.println("  Users targeted:    " + matchesFound);
+    System.out.println("  Ad campaign used:  #" + (randomIndex + 1));
+    System.out.println("  Output file:       targetedAds.txt");
+    System.out.println("-".repeat(50));
+    System.out.println("\nAD PREVIEW:");
+    System.out.println("  " + advertisement);
+    System.out.println("\n[SUCCESS] Advertisement file created!");
   }
 
 }
