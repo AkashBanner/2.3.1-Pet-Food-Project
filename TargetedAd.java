@@ -35,7 +35,34 @@ public class TargetedAd {
     DataCollector dc = new DataCollector();
     dc.setData("socialMediaPosts.txt", "targetWords.txt");
     String targetedUsers = "";
+
+    String post = dc.getNextPost();
     
+    while (!(post.equals("NONE"))){
+      String username = post.substring(0, post.indexOf(" "));
+      String lowerPost = post.toLowerCase();
+
+      String targetWord = dc.getNextTargetWord();
+      boolean found = false;
+
+      while(!targetWord.equals("NONE")){
+        if (lowerPost.indexOf(targetWord.toLowerCase())!=-1){
+          found = true;
+        }
+        targetWord = dc.getNextTargetWord();
+      }
+      if (found && targetedUsers.indexOf(username)==-1){
+        targetedUsers += username + " ";
+      }
+
+      post = dc.getNextPost();
+      
+    }
+
+    String advertisement = "Buy the next best donkey food today!";
+    dc.prepareAdvertisement("targetedAds.txt", targetedUsers.trim(), advertisement);
+
+    System.out.println("Advertisement file created");
      
   }
 
