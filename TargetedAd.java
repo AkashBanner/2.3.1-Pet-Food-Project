@@ -47,7 +47,7 @@ public class TargetedAd {
       String username = post.substring(0, post.indexOf(" "));
       String lowerPost = post.toLowerCase();
 
-      if (lowerPost.contains("donkey") || lowerPost.contains("donkeys") {
+      if (lowerPost.contains("donkey") || lowerPost.contains("donkeys")) {
         mentionsDonkey = true;
       }
 
